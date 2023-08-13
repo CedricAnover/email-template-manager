@@ -1,0 +1,35 @@
+Metadata-Version: 2.1
+Name: gooeypie
+Version: 0.9.0
+Summary: Designed for beginners, GooeyPie is a simple but powerful GUI library.
+Home-page: https://gooeypie.dev
+Author: Adam Antonio
+Author-email: adam@gooeypie.dev
+License: MIT
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Education
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: User Interfaces
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: pillow
+
+# Gooey Pie
+
+Gooey Pie is a minimalist, opinionated GUI library for Python designed for beginner users of Python.
+
+## Installation
+
+You can install GooeyPie from [PyPI](https://pypi.org/project/gooeypie/):
+
+    pip install gooeypie
+
+## How to use
+
+A getting started guide, full documentation and examples can be found at https://www.gooeypie.dev/
+
+
