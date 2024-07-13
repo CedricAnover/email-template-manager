@@ -69,7 +69,7 @@ jobs:
 
       - name: Create Artifacts for Release
         run: |
-          tar -cvf dist/email-manager.tar -C dist/email-manager/
+          tar -cvf dist/email-manager.tar dist/email-manager/
           ls -la dist
 
       - name: Create Release
