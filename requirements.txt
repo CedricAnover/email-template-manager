@@ -1,0 +1,2 @@
+gooeypie==0.13.0
+decorator==5.1.1
