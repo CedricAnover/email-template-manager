@@ -1,0 +1,78 @@
+name: Python Application Packaging and Distribute
+
+# env:
+#   UPX_VERSION: "4.2.4"
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Packaging and Release
+    runs-on: ubuntu-latest
+    env:
+      PY_VERSION: "3.11"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PY_VERSION }}
+
+      # - name: Download and install UPX
+      #   run: |
+      #     curl -sSL https://github.com/upx/upx/releases/download/v$UPX_VERSION/upx-$UPX_VERSION-amd64_linux.tar.xz | tar -xJ --strip-components=1 -C /usr/local/bin upx-$UPX_VERSION-amd64_linux/upx
+      #     upx --version
+
+      # Reference: https://github.com/marketplace/actions/upx-github-action
+      - name: Install UPX
+        uses: crazy-max/ghaction-upx@v3
+        with:
+          install-only: true
+
+      - name: UPX version
+        run: upx --version
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U pip
+          python -m pip install pyinstaller
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Package Application
+        run: |
+          echo "Packaging Our App ..."
+          pyinstaller \
+            --name email-manager \
+            --clean \
+            --log-level ERROR \
+            --distpath dist \
+            --workpath build \
+            --specpath . \
+            --exclude-module pyinstaller \
+            --exclude-module pyinstaller-hooks-contrib \
+            --exclude-module packaging \
+            -y \
+            app.py
+
+      - name: List Package Contents
+        run: |
+          ls -la ./dist/email-manager/
+
+      - name: Create Artifacts for Release
+        run: |
+          tar -cvf dist/email-manager.tar -C dist/email-manager/
+          ls -la dist
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/email-manager.tar"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
